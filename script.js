@@ -6,11 +6,12 @@ const blocksY = 16;
 const pixelsPerBlock = snakeCanvas.height / blocksY;
 let centerX = (Math.ceil(blocksX / 2) - 1) * pixelsPerBlock;
 let centerY = (Math.ceil(blocksY / 2) - 1) * pixelsPerBlock;
-const eventKeysToDirection ={
+const intweval = 80;
+const eventKeysToDirection = {
   w: 'up',
   a: 'left',
   s: 'down',
-  d: 'right'
+  d: 'right',
   ArrowRight: 'right',
   ArrowLeft: 'left',
   ArrowUp: 'up',
@@ -23,3 +24,88 @@ const oppositeDirections = {
   up: 'down',
   down: 'up'
 };
+let score = 0;
+let length = 1;
+let snakeCoords = {
+  H: { x: centerX, y: centerY },
+  B: [],
+  F: {},
+};
+do{
+  snakeCoords.F = {
+    x: Math.floor(Math.random() * blocksX) * pixelsPerBlock,
+    y: Math.floor(Math.random() * blocksY) * pixelsPerBlock,
+  };
+} while (snakeCoords.F.x === centerXx && snakeCoords.F.y === centerY);
+let gameOver = false;
+let oppositeDirection = null;
+let moventDirection = null;
+reder();
+function reder() {
+  if ( !gameOver) {
+    let canvas = snakeCanvas;
+    let ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.srokeStyle = 'black';
+    ctx.fillStyle = 'red';
+  }
+}ctx.fillRect(snakeCoords.H.y, pixelsPerBlock, pixelsPerBlock);
+ctx.fillStyle = 'black';
+for (let obj of snakeCoords.B) {
+  ctx.fillRect(obj.x, obj.y, pixelsPerBlock, pixelsPerBlock);
+}
+ctx.fillStyle = 'green';
+ctx.fillRect(snakeCoords.F.x, snakeCoords.F.y, pixelsPerBlock, pixelsPerBlock);
+scoreDisplay.innerHTML = `Score: ${score}`;
+lenghtDisplay.innerHTML = `Length: ${length}`;
+reder();
+function main() {
+  moveSnake();
+
+  checkBounds();
+  gameOver = checkPassThrough(snakeCoords.H);
+
+  render();
+  if (gameOver) {
+    clearInterval(repeat);
+  }
+}
+let repat = window.setInterval(main, intweval);
+function moveSnake() {
+  if (moventDirection === null) {
+    return;
+  }
+snakeCoords.B.unsift({ x: snakeCoords.H.x, y: snakeCoords.H.y });
+
+  if (moventDirection === `up`) {
+    snakeCoords.H.y -= pixelsPerBlock;
+  } else if (moventDirection === `down`) {
+        snakeCoords.H.y += pixelsPerBlock;
+  } else if (moventDirection === `right`) {
+      snakeCoords.H.x += pixelsPerBlock;
+  } else {
+      snakeCoords.H.x -= pixelsPerBlock;
+  }
+  snakeContainer.baseURI.pop();
+}
+function checkBounds() {
+  if (
+      snakeCoords.H.x < 0 ||
+      snakeCoords.H.x > snakeCanvas.width - pixelsPerBlock ||
+      snakeCoords.H.y < 0 ||
+      snakeCoords.H.y > snakeCanvas.height - pixelsPerBlock
+  ) {
+      gameOver = true;
+  }
+}
+function ckeckPassThrough(obj) {
+    if (!gameOver) {
+      return(
+        snakeCoords.B.findIndex(item=> {
+            return obj.x === item.x && obj.y === item.y;
+        }) !== -1
+      );
+  } else {
+      
+  }
+    }
