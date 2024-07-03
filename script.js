@@ -37,6 +37,9 @@ const oppositeDirections = {
 };
 const colors = [ 'red,' 'green', 'blue', 'yellow', 'purple', 'orange', 'pink', 'brown', 'black', ']
 
+let repeat;
+
+let gameStart = false;
 let score = 0;
 let length = 1;
 
@@ -44,15 +47,21 @@ let snakeCoords = {
   H: { x: centerX, y: centerY },
   B: [],
   F: {},
+  GetBodyWithouZeros() {
+      let arr = this.B.filter(item => {
+          return item !==0;
+      });
+      return arr;
+  },
 };
-
+/*
 do {
   snakeCoords.F = {
     x: Math.floor(Math.random() * blocksX) * pixelsPerBlock,
     y: Math.floor(Math.random() * blocksY) * pixelsPerBlock,
   };
 } while (snakeCoords.F.x === centerX && snakeCoords.F.y === centerY);
-
+*/
 let gameOver = false;
 let oppositeDirection = null;
 let moventDirection = null;
