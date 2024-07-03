@@ -1,12 +1,23 @@
-let snakeContainer = document.getElementById('id')
+'use strict'
+
+let snakeContainer = document.getElementById('snake-container');
+let snakeCanvas = document.getElementById('snakeCanvas');
+
+let scoreDisplay = document.getElementById('score');
+let lengthDisplay = document.getElementById('length');
+
 snakeCanvas.width = snakeContainer.offsetWidth - 60;
 snakeCanvas.height = snakeCanvas.width / 2.5;
+
 const blocksX = 40;
 const blocksY = 16; 
 const pixelsPerBlock = snakeCanvas.height / blocksY;
+
 let centerX = (Math.ceil(blocksX / 2) - 1) * pixelsPerBlock;
 let centerY = (Math.ceil(blocksY / 2) - 1) * pixelsPerBlock;
+
 const intweval = 80;
+
 const eventKeysToDirection = {
   w: 'up',
   a: 'left',
@@ -24,22 +35,30 @@ const oppositeDirections = {
   up: 'down',
   down: 'up'
 };
+const colors = [ 'red,' 'green', 'blue', 'yellow', 'purple', 'orange', 'pink', 'brown', 'black', ']
+
 let score = 0;
 let length = 1;
+
 let snakeCoords = {
   H: { x: centerX, y: centerY },
   B: [],
   F: {},
 };
-do{
+
+do {
   snakeCoords.F = {
     x: Math.floor(Math.random() * blocksX) * pixelsPerBlock,
     y: Math.floor(Math.random() * blocksY) * pixelsPerBlock,
   };
-} while (snakeCoords.F.x === centerXx && snakeCoords.F.y === centerY);
+} while (snakeCoords.F.x === centerX && snakeCoords.F.y === centerY);
+
 let gameOver = false;
 let oppositeDirection = null;
 let moventDirection = null;
+
+let repeat = window.setInterval(main, interval);
+
 reder();
 function reder() {
   if ( !gameOver) {
@@ -100,12 +119,42 @@ function checkBounds() {
 }
 function ckeckPassThrough(obj) {
     if (!gameOver) {
-      return(
-        snakeCoords.B.findIndex(item=> {
-            return obj.x === item.x && obj.y === item.y;
-        }) !== -1
-      );
-  } else {
+        return(
+            snakeCoords.B.findIndex(item=> {
+                return obj.x === item.x && obj.y === item.y;
+            }) !== -1
+        );
+    } else {
+        return gameOver;
+  
       
-  }
     }
+}
+document.addEventListener('keydown', (event) => {
+    event.preventDefault();
+    let direction = eventKeysToDirection[event.key] || moventDirection;
+    moventDirection = direction === oppositeDirection ? moventDirection : direction
+});
+function checkFood() {
+    if (
+        snakeCoords.H.x === snakeCoords.F.x &&
+        snakeCoords.H.y === snakeCoords.F.y &&
+        !gameOver
+    ) {
+        do {
+            snakeCoords.F = {
+                x: Math.floor(Math.random() * blocksX) * pixelsPerBlock,
+                y: Math.floor(Math.random() * blocksY) * pixelsPerBlock,
+            };
+        } while (
+            (snakeCoords.F.x === snakeCoords.H.x &&
+                snakeCoords.F.y === snakeCoords.H.y) ||
+            checkPassThrough(snakeCoords.F)
+        );
+      for (let i = 0; i < 3; i++) {
+          snakeCoords.B.push(0);
+      }
+      score++;
+      length += 3;
+    }
+}
