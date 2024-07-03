@@ -167,3 +167,58 @@ function checkFood() {
       length += 3;
     }
 }
+
+function render() {
+    if (!gameOver) {
+        let canvas = snakeCanvas;
+        let ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.srokeStyle = 'black';
+        ctx.fillStyle = 'brown';
+        ctx.fillRect(
+            snakeCoords.H.x,
+            snakeCoords.H.y,
+            pixelsPerBlock,
+            pixelsPerBlock,
+        );
+        for (let obj of snakeCoords.GetBodyWithouZeros()) {
+            let index = Math.floor(Math.random() * colors.length);
+            ctx.fillStyle = colors[index];
+            ctx.fillRect(obj.x, obj.y, pixelsPerBlock, pixelsPerBlock);
+        }
+
+        let index = Math.floor(Math.random() * colors.length);
+        ctx.fillStyle = colors[index];
+        ctx.fillRect(
+            snakeCoords.F.x,
+            snakeCoords.F.y,
+            pixelsPerBlock,
+            pixelsPerBlock,
+        );
+
+        if (playFoodSound) {
+            foodSound.play();
+            playFoodSound = false;
+        }
+
+        scoreDisplay.innerHTML = `Score: ${score}`;
+        lenghtDisplay.innerHTML = `Length: ${length}`;
+    }else {
+        crashSound.play();
+    }    
+}
+
+function Sound(src) {
+    this.sound = document.createElement('audio');
+    this.sound.src = src;
+    this.sound.setAttribute('preload', 'auto');
+    this.sound.setAttribute('controls', 'none');
+    this.sound.style.display = 'none';
+    document.body.appendChild(this.sound);
+    this.play = function () {
+        this.sound.play();
+    };
+    this.stop = function () {
+        foodSound.sound.pause();
+    };
+}
