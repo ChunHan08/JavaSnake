@@ -3,6 +3,8 @@
 let snakeContainer = document.getElementById('snake-container');
 let snakeCanvas = document.getElementById('snakeCanvas');
 
+let playButton = document.getElementsByClassName(`play-button`)[0];
+
 let scoreDisplay = document.getElementById('score');
 let lengthDisplay = document.getElementById('length');
 
@@ -19,21 +21,21 @@ let centerY = (Math.ceil(blocksY / 2) - 1) * pixelsPerBlock;
 const intweval = 80;
 
 const eventKeysToDirection = {
-  w: 'up',
-  a: 'left',
-  s: 'down',
-  d: 'right',
-  ArrowRight: 'right',
-  ArrowLeft: 'left',
-  ArrowUp: 'up',
-  ArrowDown: 'down'
+    w: 'up',
+    a: 'left',
+    s: 'down',
+    d: 'right',
+    ArrowRight: 'right',
+    ArrowLeft: 'left',
+    ArrowUp: 'up',
+    ArrowDown: 'down',
 };
 
 const oppositeDirections = {
-  right: 'left',
-  left: 'right',
-  up: 'down',
-  down: 'up'
+    right: 'left',
+    left: 'right',
+    up: 'down',
+    down: 'up'
 };
 const colors = [ 'red,' 'green', 'blue', 'yellow', 'purple', 'orange', 'pink', 'brown', 'black', ']
 
