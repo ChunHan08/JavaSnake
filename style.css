@@ -43,7 +43,7 @@
 .play-button:focus {
     padding: 6px 16px;
     background-color: #dbdbdb;
-    border-colur: #dbdbdb;
+    border-color: #dbdbdb;
 }
 .play-button:hover {
     background-color: #cccccc;

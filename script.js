@@ -37,7 +37,7 @@ const oppositeDirections = {
     up: 'down',
     down: 'up'
 };
-const colors = [ 'red,' 'green', 'blue', 'yellow', 'purple', 'orange', 'pink', 'brown', 'black', ']
+const colors = [ 'red', 'green', 'blue', 'yellow', 'purple', 'orange', 'pink', 'brown', 'black', ]
 
 let repeat;
 
@@ -47,7 +47,7 @@ let length = 1;
 
 let snakeCoords = {
   H: { x: centerX, y: centerY },
-  B: [],
+  B: [],let repeat;
   F: {},
   GetBodyWithouZeros() {
       let arr = this.B.filter(item => {
@@ -69,6 +69,38 @@ let oppositeDirection = null;
 let moventDirection = null;
 
 let repeat = window.setInterval(main, interval);
+document.addEventListener('keydown', event => {
+    event.preventDefault();
+});
+function main() {
+    moveSnake();
+    checkBounds();
+    gameOver = checkPassThrough(snakeCoords.H);
+    checkFood();
+    reder();
+    if (gameOver) {
+        clearInterval(repeat);
+    }
+}
+function moveSnake()
+    if(moventDirection=== null) {
+        return;
+    } 
+    snakeCoords.B.unshift({x: snakeCoords.H.x, y: snakeCoords.H.y})
+    if (moventDirection === 'up') {
+        snakeCoords.H.y -= pixelsPerBlock; 
+    } else if (moventDirection === 'down') {
+        snakeCoords.H.y += pixelsPerBlock;
+    } else if (moventDirection === 'right) {
+        snakeCoords.H.x += pixelsPerBlock;
+    } else {
+        snakeCoords.H.x -= piixelsPerBlock;
+    }
+    snakeCoords.B.pop();
+    if (snakeCoords.B.length > 0) {
+        oppositeDirection = oppositeDirections[moventDirection];
+    }
+}
 
 reder();
 function reder() {
